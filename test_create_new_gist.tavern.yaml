@@ -1,0 +1,23 @@
+test_name: Create a new gist
+
+stages:
+  - name: Create our second gist
+    request:
+      url: 'https://api.github.com/gists'
+      headers:
+        content-type: application/json
+        authorization: "token {tavern.env_vars.GITHUB_TOKEN}"
+      method: POST
+      json:
+        description: "Add a gist using tavern"
+        files:
+          second_gist:
+            content: "Woohoo I added a gist using tavern!"
+        public: true
+    response:
+      status_code: 201
+      save:
+        body:
+          second_gist_id: id
+          second_gist_html_url: html_url
+          second_gist_description: description

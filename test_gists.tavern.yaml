@@ -1,0 +1,42 @@
+test_name: Get information about a public gist
+stages:
+  - name: Get html url of public gist
+    request:
+      url: 'https://api.github.com/gists/e4207a515a82069e8b0d5bce03fa940b'
+      method: GET
+    response:
+      status_code: 200
+      body:
+        html_url: 'https://gist.github.com/e4207a515a82069e8b0d5bce03fa940b'
+
+  - name: Get owner name of public gist
+    request:
+      url: 'https://api.github.com/gists/e4207a515a82069e8b0d5bce03fa940b'
+      method: GET
+    response:
+      status_code: 200
+      body:
+        owner.login: 'zkan'
+
+  - name: Get content of public gist
+    request:
+      url: 'https://api.github.com/gists/e4207a515a82069e8b0d5bce03fa940b'
+      method: GET
+    response:
+      status_code: 200
+      body:
+        files.tavern_workshop_at_pycon_thailand_2018.content: 'Hello'
+
+  - name: Give a new comment on a public gist
+    request:
+      url: 'https://api.github.com/gists/e4207a515a82069e8b0d5bce03fa940b/comments'
+      headers:
+        content-type: application/json
+        authorization: 'token {tavern.env_vars.GITHUB_TOKEN}'
+      method: POST
+      json:
+        body: 'Love it'
+    response:
+      status_code: 201
+      body:
+        body: '{tavern.request_vars.json.body}'
